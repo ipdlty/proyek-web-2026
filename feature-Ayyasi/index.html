@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Ayyasi NIH</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="min-h-screen flex">
+
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-slate-900 text-white min-h-screen flex flex-col">
+
+            <div class="px-6 py-6 border-b border-slate-700">
+                <h1 class="text-2xl font-bold text-white">
+                    AdminPanel
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">
+                    Dashboard Management
+                </p>
+            </div>
+
+            <nav class="flex-1 px-4 py-6 space-y-2">
+
+                <p class="text-xs uppercase tracking-wider text-slate-500 px-3 mb-3">
+                    Menu Utama
+                </p>
+
+                <a href="#dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 text-white">
+                    <span>▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#pengguna"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800">
+                    <span>♙</span>
+                    <span>Pengguna</span>
+                </a>
+
+                <a href="#produk"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800">
+                    <span>▤</span>
+                    <span>Produk</span>
+                </a>
+
+                <a href="#laporan"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800">
+                    <span>▥</span>
+                    <span>Laporan</span>
+                </a>
+
+                <a href="#pengaturan"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800">
+                    <span>⚙</span>
+                    <span>Pengaturan</span>
+                </a>
+
+            </nav>
+
+            <div class="p-4 border-t border-slate-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold">
+                        AD
+                    </div>
+                    <div>
+                        <p class="font-medium text-sm">Administrator</p>
+                        <p class="text-xs text-slate-400">admin@example.com</p>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="flex-1 min-w-0">
+
+            <!-- NAVBAR -->
+            <header class="bg-white border-b border-gray-200 px-6 py-4">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-semibold">Dashboard</h2>
+                        <p class="text-sm text-gray-500">
+                            Selamat datang kembali, Admin.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-gray-500">
+                            Kamis, 22 Oktober 2026
+                        </span>
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                            ♙
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ISI DASHBOARD -->
+            <div id="dashboard" class="p-6">
+
+                <!-- JUDUL -->
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold">Ringkasan Dashboard</h3>
+                    <p class="text-gray-500 mt-1">
+                        Pantau informasi dan aktivitas sistem Anda.
+                    </p>
+                </div>
+
+                <!-- KARTU STATISTIK -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Total Pengguna</p>
+                            <span class="bg-blue-100 text-blue-600 p-2 rounded-lg">♙</span>
+                        </div>
+                        <h4 class="text-3xl font-bold mt-4">1.284</h4>
+                        <p class="text-sm text-green-600 mt-2">+12,5% bulan ini</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Total Produk</p>
+                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg">▤</span>
+                        </div>
+                        <h4 class="text-3xl font-bold mt-4">356</h4>
+                        <p class="text-sm text-green-600 mt-2">+8 produk baru</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Total Transaksi</p>
+                            <span class="bg-orange-100 text-orange-600 p-2 rounded-lg">▣</span>
+                        </div>
+                        <h4 class="text-3xl font-bold mt-4">892</h4>
+                        <p class="text-sm text-green-600 mt-2">+18,2% bulan ini</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Pendapatan</p>
+                            <span class="bg-green-100 text-green-600 p-2 rounded-lg">Rp</span>
+                        </div>
+                        <h4 class="text-3xl font-bold mt-4">Rp24,5 jt</h4>
+                        <p class="text-sm text-green-600 mt-2">+10,4% bulan ini</p>
+                    </div>
+
+                </div>
+
+                <!-- KONTEN BAWAH -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+                    <!-- TABEL AKTIVITAS -->
+                    <section class="xl:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200">
+
+                        <div class="px-6 py-5 border-b border-gray-200">
+                            <h3 class="font-semibold text-lg">Aktivitas Terbaru</h3>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Daftar aktivitas sistem terbaru.
+                            </p>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-50 text-gray-500">
+                                    <tr>
+                                        <th class="px-6 py-4 font-medium">Nama</th>
+                                        <th class="px-6 py-4 font-medium">Aktivitas</th>
+                                        <th class="px-6 py-4 font-medium">Tanggal</th>
+                                        <th class="px-6 py-4 font-medium">Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Andi Saputra</td>
+                                        <td class="px-6 py-4">Tambah produk</td>
+                                        <td class="px-6 py-4 text-gray-500">22 Okt 2026</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+                                                Berhasil
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Siti Rahma</td>
+                                        <td class="px-6 py-4">Update data</td>
+                                        <td class="px-6 py-4 text-gray-500">21 Okt 2026</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs">
+                                                Diproses
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Budi Santoso</td>
+                                        <td class="px-6 py-4">Hapus data</td>
+                                        <td class="px-6 py-4 text-gray-500">20 Okt 2026</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs">
+                                                Ditolak
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Dina Putri</td>
+                                        <td class="px-6 py-4">Login sistem</td>
+                                        <td class="px-6 py-4 text-gray-500">20 Okt 2026</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+                                                Berhasil
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="px-6 py-4 border-t border-gray-100">
+                            <a href="#laporan" class="text-sm text-blue-600 font-medium">
+                                Lihat semua aktivitas →
+                            </a>
+                        </div>
+
+                    </section>
+
+                    <!-- STATUS SISTEM -->
+                    <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+                        <h3 class="font-semibold text-lg">Status Sistem</h3>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Informasi kondisi sistem.
+                        </p>
+
+                        <div class="mt-6 space-y-6">
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Penyimpanan</span>
+                                    <span class="font-semibold">65%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Penggunaan CPU</span>
+                                    <span class="font-semibold">42%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 42%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Penggunaan Memori</span>
+                                    <span class="font-semibold">78%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-8 p-4 bg-green-50 rounded-lg border border-green-100">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="font-medium text-green-700">Sistem Aktif</span>
+                            </div>
+                            <p class="text-sm text-green-700 mt-2">
+                                Seluruh layanan berjalan normal.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="text-center text-sm text-gray-400 mt-8">
+                    © 2026 AdminPanel. All rights reserved.
+                </footer>
+
+            </div>
+        </main>
+
+    </div>
+
+</body>
+
+</html>
