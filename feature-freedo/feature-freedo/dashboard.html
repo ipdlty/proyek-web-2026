@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard IOT freedo</title>
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --bg-dark-sidebar: #0f172a;
+            --bg-sidebar-hover: #1e293b;
+            --bg-sidebar-active: #2563eb;
+            --bg-body-custom: #f1f5f9;
+            --text-muted-custom: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-body-custom);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Layout (Pure CSS - Responsive) */
+        .sidebar-wrapper {
+            background-color: var(--bg-dark-sidebar);
+            color: #f8fafc;
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1020;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 1.75rem;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Links */
+        .sidebar-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-muted-custom);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.925rem;
+            border-radius: 0.5rem;
+            margin: 0.2rem 0.75rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sidebar-nav-link:hover {
+            background-color: var(--bg-sidebar-hover);
+            color: #ffffff;
+        }
+
+        .sidebar-nav-link.active {
+            background-color: var(--bg-sidebar-active);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        /* Pulse Status Beacon */
+        .status-beacon {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .status-beacon::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: inherit;
+            border-radius: 50%;
+            animation: pulse-ring 1.8s infinite cubic-bezier(0.45, 0, 0.2, 1);
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+
+            80% {
+                transform: scale(2.4);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(2.4);
+                opacity: 0;
+            }
+        }
+
+        /* Metric & Control Cards */
+        .metric-card {
+            border: none;
+            border-radius: 0.85rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #ffffff;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .icon-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+        }
+
+        /* Big Switch Styling for Actuators */
+        .actuator-switch .form-check-input {
+            width: 3rem;
+            height: 1.6rem;
+            cursor: pointer;
+        }
+
+        .actuator-switch .form-check-input:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+
+        /* Responsive adjustments for mobile and tablets */
+        @media (max-width: 991.98px) {
+            .sidebar-wrapper {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-wrapper">
+        <!-- Brand / Node Logo -->
+        <div
+            class="px-4 py-4 d-flex align-items-center justify-content-between border-bottom border-secondary border-opacity-25">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-cpu-fill text-primary fs-3"></i>
+                <div>
+                    <h6 class="mb-0 fw-bold text-white tracking-wide">NEXUS-IOT</h6>
+                    <small class="text-secondary" style="font-size: 0.75rem;">Node Gateway v3.4</small>
+                </div>
+            </div>
+            <span
+                class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle rounded-pill">Edge</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="my-3 flex-grow-1">
+            <div class="px-3 pb-2 text-uppercase text-secondary fw-semibold"
+                style="font-size: 0.7rem; letter-spacing: 0.05rem;">
+                Monitoring
+            </div>
+            <a href="#overview" class="sidebar-nav-link active">
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Overview</span>
+            </a>
+            <a href="#devices" class="sidebar-nav-link">
+                <i class="bi bi-hdd-network-fill"></i>
+                <span>Edge Devices</span>
+                <span class="badge bg-secondary ms-auto rounded-pill" style="font-size: 0.75rem;">8</span>
+            </a>
+            <a href="#sensors" class="sidebar-nav-link">
+                <i class="bi bi-broadcast"></i>
+                <span>Telemetry Sensors</span>
+            </a>
+            <a href="#relays" class="sidebar-nav-link">
+                <i class="bi bi-toggle-on"></i>
+                <span>Actuators & Relays</span>
+            </a>
+
+            <div class="px-3 pt-4 pb-2 text-uppercase text-secondary fw-semibold"
+                style="font-size: 0.7rem; letter-spacing: 0.05rem;">
+                System & Data
+            </div>
+            <a href="#logs" class="sidebar-nav-link">
+                <i class="bi bi-card-checklist"></i>
+                <span>Audit Logs</span>
+            </a>
+            <a href="#analytics" class="sidebar-nav-link">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <span>Data History</span>
+            </a>
+            <a href="#settings" class="sidebar-nav-link">
+                <i class="bi bi-gear-fill"></i>
+                <span>Broker Settings</span>
+            </a>
+        </nav>
+
+        <!-- Sidebar Bottom Status Card -->
+        <div class="p-3 m-3 rounded-3" style="background-color: #1e293b;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="status-beacon"></span>
+                <span class="text-white small fw-bold">Broker: Connected</span>
+            </div>
+            <p class="mb-2 text-secondary" style="font-size: 0.75rem;">
+                Broker: <span class="text-light">mqtt://broker.nexus.local:1883</span>
+            </p>
+            <div class="d-flex justify-content-between align-items-center text-secondary" style="font-size: 0.75rem;">
+                <span>Keep-Alive: 60s</span>
+                <span class="text-success fw-semibold">12 ms latency</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+
+        <!-- Top Bar / Header -->
+        <header
+            class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-light-subtle gap-3">
+            <div>
+                <h4 class="fw-bold mb-1 text-dark">Station Node 01: Hydro-Greenhouse</h4>
+                <div class="text-secondary small d-flex align-items-center gap-2">
+                    <span><i class="bi bi-geo-alt-fill text-danger me-1"></i>Sector 4B - Zone Green</span>
+                    <span>&bull;</span>
+                    <span>Last sync: Oct 22, 2026, 11:27:04 AM</span>
+                </div>
+            </div>
+
+            <!-- Quick Action Badges -->
+            <div class="d-flex align-items-center gap-2">
+                <span
+                    class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+                    <i class="bi bi-wifi"></i> WiFi RSSI: -54 dBm
+                </span>
+                <span
+                    class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+                    <i class="bi bi-shield-check"></i> TLS 1.3
+                </span>
+            </div>
+        </header>
+
+        <!-- METRICS CARDS SECTION -->
+        <section class="row g-3 mb-4" id="overview">
+
+            <!-- Temperature Metric -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card metric-card shadow-sm p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="text-secondary small text-uppercase fw-semibold">Ambient Temp</span>
+                            <h2 class="fw-bold text-dark my-1">26.8<span class="fs-6 text-muted"> °C</span></h2>
+                            <span class="badge bg-success-subtle text-success rounded-pill fw-normal">
+                                <i class="bi bi-arrow-up-right me-1"></i>+0.4° Normal
+                            </span>
+                        </div>
+                        <div class="icon-badge bg-danger-subtle text-danger">
+                            <i class="bi bi-thermometer-half"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3" style="height: 4px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 53%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Humidity Metric -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card metric-card shadow-sm p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="text-secondary small text-uppercase fw-semibold">Air Humidity</span>
+                            <h2 class="fw-bold text-dark my-1">68.2<span class="fs-6 text-muted"> %RH</span></h2>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill fw-normal">
+                                <i class="bi bi-droplet-half me-1"></i>Optimal
+                            </span>
+                        </div>
+                        <div class="icon-badge bg-primary-subtle text-primary">
+                            <i class="bi bi-droplet-fill"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3" style="height: 4px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 68%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barometric Pressure Metric -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card metric-card shadow-sm p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="text-secondary small text-uppercase fw-semibold">Barometric Press.</span>
+                            <h2 class="fw-bold text-dark my-1">1013<span class="fs-6 text-muted"> hPa</span></h2>
+                            <span class="badge bg-info-subtle text-info-emphasis rounded-pill fw-normal">
+                                <i class="bi bi-compass me-1"></i>Stable
+                            </span>
+                        </div>
+                        <div class="icon-badge bg-info-subtle text-info">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3" style="height: 4px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 82%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battery / Solar Level -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card metric-card shadow-sm p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="text-secondary small text-uppercase fw-semibold">Solar Battery</span>
+                            <h2 class="fw-bold text-dark my-1">94<span class="fs-6 text-muted"> %</span></h2>
+                            <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill fw-normal">
+                                <i class="bi bi-lightning-charge-fill me-1"></i>Charging (13.8V)
+                            </span>
+                        </div>
+                        <div class="icon-badge bg-warning-subtle text-warning">
+                            <i class="bi bi-battery-charging"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3" style="height: 4px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 94%;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ACTUATOR / RELAY SWITCHES SECTION -->
+        <section class="mb-4" id="relays">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold text-dark mb-0">
+                    <i class="bi bi-sliders2 text-primary me-2"></i>Actuators & Relay Controls
+                </h5>
+                <span class="badge bg-secondary-subtle text-secondary-emphasis">Manual Override Mode</span>
+            </div>
+
+            <div class="row g-3">
+                <!-- Relay 1: Irrigation Valve -->
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card metric-card shadow-sm p-3 border-start border-4 border-success">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">Water Irrigation</h6>
+                                <small class="text-secondary">Solenoid Valve #1</small>
+                            </div>
+                            <div class="form-check form-switch actuator-switch m-0 p-0">
+                                <input class="form-check-input ms-0" type="checkbox" role="switch" id="relayValve"
+                                    checked>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-secondary small d-flex justify-content-between">
+                            <span>Status: <strong class="text-success">OPEN</strong></span>
+                            <span>Flow: 1.4 L/min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relay 2: Exhaust Ventilation -->
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card metric-card shadow-sm p-3 border-start border-4 border-primary">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">Exhaust Fans</h6>
+                                <small class="text-secondary">Brushless Air Mover</small>
+                            </div>
+                            <div class="form-check form-switch actuator-switch m-0 p-0">
+                                <input class="form-check-input ms-0" type="checkbox" role="switch" id="relayFan"
+                                    checked>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-secondary small d-flex justify-content-between">
+                            <span>Status: <strong class="text-primary">RUNNING</strong></span>
+                            <span>PWM: 75%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relay 3: Full Spectrum Grow Light -->
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card metric-card shadow-sm p-3 border-start border-4 border-warning">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">LED Grow Light</h6>
+                                <small class="text-secondary">450nm - 660nm Array</small>
+                            </div>
+                            <div class="form-check form-switch actuator-switch m-0 p-0">
+                                <input class="form-check-input ms-0" type="checkbox" role="switch" id="relayLights">
+                            </div>
+                        </div>
+                        <div class="mt-3 text-secondary small d-flex justify-content-between">
+                            <span>Status: <strong class="text-muted">STANDBY</strong></span>
+                            <span>Schedule: 18:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relay 4: Nutrient Dosing Pump -->
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card metric-card shadow-sm p-3 border-start border-4 border-danger">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">Nutrient Doser</h6>
+                                <small class="text-secondary">Peristaltic Pump</small>
+                            </div>
+                            <div class="form-check form-switch actuator-switch m-0 p-0">
+                                <input class="form-check-input ms-0" type="checkbox" role="switch" id="relayPump">
+                            </div>
+                        </div>
+                        <div class="mt-3 text-secondary small d-flex justify-content-between">
+                            <span>Status: <strong class="text-danger">OFFLINE</strong></span>
+                            <span>pH Level: 6.2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SENSORS & DEVICES TABLE -->
+        <section class="mb-4" id="devices">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold text-dark mb-0">
+                        <i class="bi bi-hdd-stack text-primary me-2"></i>Attached Node Devices & Probe Feed
+                    </h5>
+                    <span class="badge bg-light text-dark border">Auto-Refreshed via MQTT Feed</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light text-secondary text-uppercase" style="font-size: 0.75rem;">
+                            <tr>
+                                <th scope="col" class="ps-4">Device / Sensor</th>
+                                <th scope="col">Protocol</th>
+                                <th scope="col">Topic / Address</th>
+                                <th scope="col">Current Output</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="pe-4">Last Telemetry</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">
+                                    <i class="bi bi-thermometer text-danger me-2"></i>DHT22 Ambient Probe
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary-emphasis">1-Wire</span></td>
+                                <td><code>sensors/greenhouse/temp</code></td>
+                                <td><strong class="text-dark">26.8 °C</strong></td>
+                                <td>
+                                    <span
+                                        class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">
+                                        <i class="bi bi-check-circle-fill me-1"></i>Active
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">Just now</td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">
+                                    <i class="bi bi-droplet text-primary me-2"></i>Soil Moisture Capacitive
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary-emphasis">ADC / I2C</span>
+                                </td>
+                                <td><code>sensors/greenhouse/soil_m</code></td>
+                                <td><strong class="text-dark">42.5 %</strong></td>
+                                <td>
+                                    <span
+                                        class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">
+                                        <i class="bi bi-check-circle-fill me-1"></i>Active
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">4s ago</td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">
+                                    <i class="bi bi-sun text-warning me-2"></i>BH1750 Ambient Light
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary-emphasis">I2C (0x23)</span>
+                                </td>
+                                <td><code>sensors/greenhouse/lux</code></td>
+                                <td><strong class="text-dark">18,450 Lux</strong></td>
+                                <td>
+                                    <span
+                                        class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill">
+                                        <i class="bi bi-pause-circle-fill me-1"></i>Standby
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">2m ago</td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">
+                                    <i class="bi bi-radioactive text-info me-2"></i>MQ-135 Air Quality (CO2)
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary-emphasis">Analog</span></td>
+                                <td><code>sensors/greenhouse/co2</code></td>
+                                <td><strong class="text-dark">412 ppm</strong></td>
+                                <td>
+                                    <span
+                                        class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">
+                                        <i class="bi bi-check-circle-fill me-1"></i>Active
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">12s ago</td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">
+                                    <i class="bi bi-wind text-secondary me-2"></i>Anemometer Wind Speed
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary-emphasis">Pulse GPIO</span>
+                                </td>
+                                <td><code>sensors/greenhouse/wind</code></td>
+                                <td><strong class="text-dark">-- km/h</strong></td>
+                                <td>
+                                    <span
+                                        class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">
+                                        <i class="bi bi-x-circle-fill me-1"></i>Offline
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">45m ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER / LOG STREAM PREVIEW -->
+        <footer class="d-flex flex-wrap justify-content-between align-items-center text-muted small pt-3 border-top">
+            <div>
+                <span>System Architecture: <strong>ESP32-S3 WROOM</strong> &bull; FreeRTOS v10.5</span>
+            </div>
+            <div>
+                <span>MQTT QoS 1 &bull; 0 packet drops in last 24h</span>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>
